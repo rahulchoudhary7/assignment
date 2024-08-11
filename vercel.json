@@ -4,23 +4,23 @@
     {
       "src": "vercel-build.sh",
       "use": "@vercel/static-build",
-      "config": { 
+      "config": {
         "distDir": "client/dist"
       }
     },
     {
-      "src": "api/server.js",
+      "src": "api/index.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/api/(.*)",
-      "dest": "/api/server.js"
+      "dest": "api/index.js"
     },
     {
       "src": "/(.*)",
-      "dest": "/client/dist/$1"
+      "dest": "client/dist/$1"
     }
   ],
   "outputDirectory": "client/dist"
