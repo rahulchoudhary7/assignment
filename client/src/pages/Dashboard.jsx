@@ -22,11 +22,15 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    setIsLoading(true);
     const loadBannerData = async () => {
-      const data = await fetchBannerData();
-      setFormData(data);
-      setIsLoading(false);
+      try {
+        const data = await fetchBannerData();
+        setFormData(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
     };
     loadBannerData();
   }, []);
