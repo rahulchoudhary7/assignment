@@ -1,19 +1,9 @@
 services:
   - type: web
-    name: my-app-frontend
-    env: static
-    buildCommand: cd client && npm install && npm run build
-    staticPublishPath: ./client/dist
-    routes:
-      - type: rewrite
-        source: /*
-        destination: /index.html
-
-  - type: web
-    name: my-app-backend
+    name: assignment
     env: node
-    buildCommand: cd api && npm install
-    startCommand: cd api && node server.js
+    buildCommand: cd api && npm install && cd .. && cd client && npm install && npm run build && cd ..
+    startCommand: node api/server.js
     envVars:
       - key: NODE_ENV
         value: production
