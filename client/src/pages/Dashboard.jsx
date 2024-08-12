@@ -26,7 +26,10 @@ const Dashboard = () => {
       setIsLoading(true)
       try {
         const data = await fetchBannerData();
-        setFormData(data);
+        setFormData({
+          ...data,
+          id: data.id 
+        });
       } catch (error) {
         console.error(error);
       } finally {

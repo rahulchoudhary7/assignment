@@ -11,13 +11,44 @@ app.use(cors({
 }));
 app.use(express.json());
 
-// Change this line to serve static files from the correct location
+// API routes
+app.get('/api/banner', async (req, res) => {
+  try {
+    const result = await client.query('SELECT * FROM banner');
+    res.json(result.rows[0]);
+  } catch (error) {
+    console.error('Error:', error);
+    res.status(500).json({ error: 'Failed to fetch banner data', details: error.message });
+  }
+});
+
+app.put('/api/banner', async (req, res) => {
+    const { id, isvisible, description, link, endtime } = req.body;
+    
+    try {
+      const result = await client.query(
+        'UPDATE banner SET isVisible = $1, description = $2, link = $3, endTime = $4 WHERE id = $5',
+        [isvisible, description, link, endtime, id]
+      );
+      
+      if (result.rowCount === 0) {
+        return res.status(404).json({ error: 'Banner not found' });
+      }
+  
+      res.json({ message: 'Banner updated successfully' });
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).json({ error: 'Failed to update banner data' });
+    }
+});
+// Serve static files
 app.use(express.static(path.join(__dirname, '..', 'client', 'dist')))
 
-// Update this route to serve index.html from the correct location
+// Catch-all route for the front-end
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'client', 'dist', 'index.html'))
 })
+
 
 const config = {
     user: process.env.DB_USER,
@@ -42,36 +73,6 @@ client.connect(err => {
   console.log('Connected to PostgreSQL');
 });
 
-app.get('/api/banner', async (req, res) => {
-  try {
-    const result = await client.query('SELECT * FROM banner');
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'Failed to fetch banner data', details: error.message });
-  }
-});
-
-app.put('/api/banner', async (req, res) => {
-    const { id, isvisible, description, link, endtime } = req.body;
-    
-  
-    try {
-      const result = await client.query(
-        'UPDATE banner SET isVisible = $1, description = $2, link = $3, endTime = $4 WHERE id = $5',
-        [isvisible, description, link, endtime, id]
-      );
-      
-      if (result.rowCount === 0) {
-        return res.status(404).json({ error: 'Banner not found' });
-      }
-  
-      res.json({ message: 'Banner updated successfully' });
-    } catch (error) {
-      console.error('Error:', error);
-      res.status(500).json({ error: 'Failed to update banner data' });
-    }
-  });
   
 
 process.on('SIGINT', () => {
