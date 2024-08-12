@@ -23,6 +23,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const loadBannerData = async () => {
+      setIsLoading(true)
       try {
         const data = await fetchBannerData();
         setFormData(data);
