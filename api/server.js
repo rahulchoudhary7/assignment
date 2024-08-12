@@ -3,52 +3,16 @@ const cors = require('cors');
 const fs = require('fs');
 const path = require('path');
 const { Client } = require('pg');
+const createApiRouter = require('./routes/apiRoutes.js');
 require('dotenv').config()
 
 const app = express();
+
+// CORS configuration (remove duplicate)
 app.use(cors({
-  origin : ['http://localhost:3000', 'https://assignment-2-eezd.onrender.com']
+  origin: ['http://localhost:3000', 'https://assignment-2-eezd.onrender.com']
 }));
 app.use(express.json());
-
-// API routes
-app.get('/api/banner', async (req, res) => {
-  try {
-    const result = await client.query('SELECT * FROM banner');
-    res.json(result.rows[0]);
-  } catch (error) {
-    console.error('Error:', error);
-    res.status(500).json({ error: 'Failed to fetch banner data', details: error.message });
-  }
-});
-
-app.put('/api/banner', async (req, res) => {
-    const { id, isvisible, description, link, endtime } = req.body;
-    
-    try {
-      const result = await client.query(
-        'UPDATE banner SET isVisible = $1, description = $2, link = $3, endTime = $4 WHERE id = $5',
-        [isvisible, description, link, endtime, id]
-      );
-      
-      if (result.rowCount === 0) {
-        return res.status(404).json({ error: 'Banner not found' });
-      }
-  
-      res.json({ message: 'Banner updated successfully' });
-    } catch (error) {
-      console.error('Error:', error);
-      res.status(500).json({ error: 'Failed to update banner data' });
-    }
-});
-// Serve static files
-app.use(express.static(path.join(__dirname, '..', 'client', 'dist')))
-
-// Catch-all route for the front-end
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'client', 'dist', 'index.html'))
-})
-
 
 const config = {
     user: process.env.DB_USER,
@@ -56,11 +20,11 @@ const config = {
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT, 10), 
     database: process.env.DB_DATABASE,
-  ssl: {
-    rejectUnauthorized: true,
-    ca: fs.readFileSync('./ca.pem').toString(),
-  },
-  connectionTimeoutMillis: 20000, 
+    ssl: {
+        rejectUnauthorized: true,
+        ca: fs.readFileSync('./ca.pem').toString(),
+    },
+    connectionTimeoutMillis: 20000, 
 };
 
 const client = new Client(config);
@@ -73,7 +37,17 @@ client.connect(err => {
   console.log('Connected to PostgreSQL');
 });
 
-  
+// Use API routes with client passed as an argument
+const apiRouter = createApiRouter(client);
+app.use('/api', apiRouter);
+
+// Serve static files
+app.use(express.static(path.join(__dirname, '..', 'client', 'dist')));
+
+// Catch-all route for the front-end
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '..', 'client', 'dist', 'index.html'));
+});
 
 process.on('SIGINT', () => {
   client.end(err => {

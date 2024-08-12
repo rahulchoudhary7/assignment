@@ -1,4 +1,4 @@
-const API_URL = 'https://assignment-2-eezd.onrender.com/api';
+const API_URL = '/api';
 
 export const fetchBannerData = async () => {
   const response = await fetch(`${API_URL}/banner`);
