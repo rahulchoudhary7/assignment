@@ -11,10 +11,12 @@ app.use(cors({
 }));
 app.use(express.json());
 
-app.use(express.static(path.join(__dirname, 'client', 'dist')))
+// Change this line to serve static files from the correct location
+app.use(express.static(path.join(__dirname, '..', 'client', 'dist')))
 
+// Update this route to serve index.html from the correct location
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'))
+    res.sendFile(path.join(__dirname, '..', 'client', 'dist', 'index.html'))
 })
 
 const config = {
