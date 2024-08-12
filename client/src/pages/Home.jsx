@@ -35,7 +35,7 @@ const Home = () => {
       {isLoading ? (
         <LaptopScreenLoader />
       ) : (
-        <div className="flex flex-col min-h-screen bg-gray-100 mt-12">
+        <div className="flex flex-col min-h-screen mx-auto  bg-gray-100 py-16">
           <main className="flex-grow">
             {bannerData && bannerData.isvisible ? (
               <Banner

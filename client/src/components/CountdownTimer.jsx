@@ -43,8 +43,8 @@ const VersatileCountdownTimer = ({ endtime }) => {
   }, [endtime]);
 
   const Digit = ({ value }) => (
-    <div className="relative w-14 h-20 rounded-md overflow-hidden bg-white/20">
-      <div className="absolute inset-0 flex items-center justify-center text-4xl font-bold font-mono text-purple-900">
+    <div className="relative w-8 h-12 sm:w-14 sm:h-20 rounded-sm md:rounded-md overflow-hidden bg-white/20">
+      <div className="absolute inset-0 flex items-center justify-center text-2xl sm:text-4xl font-bold font-mono text-purple-900">
         {value}
       </div>
     </div>
@@ -52,7 +52,7 @@ const VersatileCountdownTimer = ({ endtime }) => {
 
   const Colon = () => (
     <div
-      className={`text-4xl font-bold mx-0.5 ${
+      className={`text-2xl sm:text-4xl font-bold mx-0.5 ${
         blinkColon ? 'text-purple-900' : 'text-transparent'
       }`}
     >
@@ -61,8 +61,8 @@ const VersatileCountdownTimer = ({ endtime }) => {
   );
 
   return (
-    <div className="p-6 rounded-xl inline-block bg-white/50">
-      <div className="flex items-center justify-center space-x-1 mb-3">
+    <div className="p-3 sm:p-6 rounded-md md:rounded-xl inline-block bg-white/50">
+      <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4">
         {timeLeft.days > 0 && (
           <div className="flex flex-col items-center">
             <div className="flex gap-x-1">
@@ -73,7 +73,7 @@ const VersatileCountdownTimer = ({ endtime }) => {
                 value={timeLeft.days?.toString().padStart(2, '0')[1] || '0'}
               />
             </div>
-            <div className="text-sm font-semibold">Days</div>
+            <div className="text-xs sm:text-sm font-semibold">Days</div>
           </div>
         )}
         {timeLeft.days > 0 && <Colon />}
@@ -86,7 +86,7 @@ const VersatileCountdownTimer = ({ endtime }) => {
               value={timeLeft.hours?.toString().padStart(2, '0')[1] || '0'}
             />
           </div>
-          <div className="text-sm font-semibold">Hours</div>
+          <div className="text-xs sm:text-sm font-semibold">Hours</div>
         </div>
         <Colon />
         <div className="flex flex-col items-center">
@@ -98,7 +98,7 @@ const VersatileCountdownTimer = ({ endtime }) => {
               value={timeLeft.minutes?.toString().padStart(2, '0')[1] || '0'}
             />
           </div>
-          <div className="text-sm font-semibold">Minutes</div>
+          <div className="text-xs sm:text-sm font-semibold">Minutes</div>
         </div>
         <Colon />
         <div className="flex flex-col items-center">
@@ -110,16 +110,16 @@ const VersatileCountdownTimer = ({ endtime }) => {
               value={timeLeft.seconds?.toString().padStart(2, '0')[1] || '0'}
             />
           </div>
-          <div className="text-sm font-semibold">Seconds</div>
+          <div className="text-xs sm:text-sm font-semibold">Seconds</div>
         </div>
       </div>
       {timeLeft.days === 0 &&
         timeLeft.hours === 0 &&
         timeLeft.minutes === 0 &&
         timeLeft.seconds === 0 && (
-          <div className="flex items-center justify-center text-fuchsia-600 animate-pulse">
-            <AlertCircle className="mr-1 w-4 h-4" />
-            <span className="text-sm font-semibold">Time&apos;s up!</span>
+          <div className="flex items-center justify-center text-fuchsia-600 animate-pulse mt-2">
+            <AlertCircle className="mr-1 w-3 h-3 sm:w-4 sm:h-4" />
+            <span className="text-xs sm:text-sm font-semibold">Time's up!</span>
           </div>
         )}
     </div>
