@@ -13,7 +13,7 @@ services:
     name: my-app-backend
     env: node
     buildCommand: cd api && npm install
-    startCommand: node api/server.js
+    startCommand: cd api && node server.js
     envVars:
       - key: NODE_ENV
         value: production
