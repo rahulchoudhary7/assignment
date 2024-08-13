@@ -2,7 +2,7 @@ import CountdownTimer from './CountdownTimer';
 
 const Banner = ({ description, link, endtime }) => {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-red-600 to-purple-700 w-full px-4 py-8 sm:py-16">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-red-600 to-purple-700 w-full px-4 py-6 sm:py-14">
       <div className="max-w-3xl w-full">
         <div className="flex items-center justify-center bg-white/5 backdrop-blur-sm p-3 sm:p-4 rounded-full mb-6 sm:mb-12">
           <span className="text-white font-medium text-xs sm:text-sm md:text-base">
